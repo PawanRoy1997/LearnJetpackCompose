@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
@@ -50,20 +51,34 @@ fun MessageCard(message: Message) {
             contentDescription = "Just an image",
             modifier = Modifier
                 .size(40.dp)
+                .border(1.5.dp, MaterialTheme.colors.secondary, CircleShape)
                 .clip(CircleShape)
         )
         Spacer(modifier = Modifier.width(8.dp))
         Column {
-            Text(message.message)
-            Text(message.author)
+            Text(
+                message.author,
+                style = MaterialTheme.typography.subtitle2,
+                color = MaterialTheme.colors.secondary
+            )
+            Surface(shape = MaterialTheme.shapes.medium, elevation = 1.dp) {
+                Text(
+                    message.message,
+                    modifier = Modifier.padding(all = 4.dp),
+                    style = MaterialTheme.typography.body2
+                )
+            }
         }
     }
 }
 
 @Preview(showBackground = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Night Mode")
 @Composable
 fun MessageCardPreview() {
-    MessageCard(message = Message("Hii There!", "Pawan Roy"))
+    LearnJetpackComposeTheme {
+        MessageCard(message = Message("Hii There!", "Pawan Roy"))
+    }
 }
 
 @Preview(showBackground = true, name = "Day Mode")
