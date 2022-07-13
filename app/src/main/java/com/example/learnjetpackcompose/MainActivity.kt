@@ -11,13 +11,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.learnjetpackcompose.data.SampleData
 import com.example.learnjetpackcompose.ui.theme.LearnJetpackComposeTheme
@@ -27,16 +32,44 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LearnJetpackComposeTheme {
-                Conversation(SampleData.conversationSample)
+//                Conversation(SampleData.conversationSample)
+                ClickCounter()
             }
         }
     }
 }
 
 @Composable
+fun ClickCounter() {
+    var clicks by remember { mutableStateOf(0) }
+    Column(
+        modifier = Modifier
+            .fillMaxHeight(1F)
+            .fillMaxWidth(1F),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Clicks", textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth(1f))
+        Text(
+            text = clicks.toString(),
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(1f)
+        )
+        Button(onClick = { clicks++ }, modifier = Modifier.fillMaxWidth(0.5F), enabled = true) {
+            Text(text = "Click")
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewClickCounter() {
+    ClickCounter()
+}
+
+@Composable
 fun Conversation(messages: List<Message>) {
     LazyColumn {
-        items(messages){message ->
+        items(messages) { message ->
             MessageCard(message)
         }
     }
